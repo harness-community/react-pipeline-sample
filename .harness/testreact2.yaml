@@ -1,0 +1,90 @@
+pipeline:
+  name: test-react-2
+  identifier: testreact2
+  projectIdentifier: DhrubaCI
+  orgIdentifier: default
+  tags: {}
+  variables:
+    - name: DOCKERHUB_USERNAME
+      type: String
+      description: Your Docker Hub username
+      value: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: build app
+                  identifier: build_app
+                  spec:
+                    shell: Sh
+                    command: npm run build
+              - step:
+                  type: Run
+                  name: run tests
+                  identifier: run_tests
+                  spec:
+                    shell: Sh
+                    command: npm run test
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push an image to Docker Registry
+                  identifier: BuildandPushanimagetoDockerRegistry
+                  spec:
+                    connectorRef: DhrubajyotiDocker
+                    repo: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react
+                    tags:
+                      - <+pipeline.sequenceId>
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+    - stage:
+        name: Run Connectivity Test
+        identifier: Run_Connectivity_Test
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Background
+                  name: Test Server
+                  identifier: Test_Server
+                  spec:
+                    connectorRef: DhrubajyotiDocker
+                    image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>
+                    shell: Sh
+                    portBindings:
+                      "8888": "8888"
+              - step:
+                  type: Run
+                  name: Test Connection to Java HTTP Server
+                  identifier: Test_Connection_to_Java_HTTP_Server
+                  spec:
+                    shell: Sh
+                    command: |-
+                      until curl --max-time 1 http://localhost:8888; do
+                        sleep 2;
+                      done
+  properties:
+    ci:
+      codebase:
+        connectorRef: dhrubaaccountconnector
+        repoName: react-pipeline-sample
+        build: <+input>

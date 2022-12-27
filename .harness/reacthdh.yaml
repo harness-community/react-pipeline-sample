@@ -44,7 +44,7 @@ pipeline:
                   name: Build and Push an image to Docker Registry
                   identifier: BuildandPushanimagetoDockerRegistry
                   spec:
-                    connectorRef: DhrubajyotiDocker
+                    connectorRef: harnesscommunitydocker
                     repo: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react
                     tags:
                       - <+pipeline.sequenceId>
@@ -74,7 +74,7 @@ pipeline:
                   name: Test Server
                   identifier: Test_Server
                   spec:
-                    connectorRef: DhrubajyotiDocker
+                    connectorRef: harnesscommunitydocker
                     image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>
                     shell: Sh
                     portBindings:

@@ -78,14 +78,14 @@ pipeline:
                     image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>
                     shell: Sh
                     portBindings:
-                      "8888": "8888"
+                      "8080": "8080"
               - step:
                   type: Run
-                  name: Test Connection to Java HTTP Server
+                  name: test connection
                   identifier: Test_Connection_to_Java_HTTP_Server
                   spec:
                     shell: Sh
-                    command: curl http://Test_Server:8888
+                    command: curl reactjs_server:8080
   properties:
     ci:
       codebase:

@@ -85,7 +85,7 @@ pipeline:
                   identifier: Test_Connection_to_Java_HTTP_Server
                   spec:
                     shell: Sh
-                    command: curl http://localhost:8888
+                    command: curl http://Test_Server:8888
   properties:
     ci:
       codebase:

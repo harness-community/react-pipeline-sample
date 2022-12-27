@@ -20,6 +20,13 @@ pipeline:
             steps:
               - step:
                   type: Run
+                  name: install node modules
+                  identifier: install_node_modules
+                  spec:
+                    shell: Sh
+                    command: npm install
+              - step:
+                  type: Run
                   name: build app
                   identifier: build_app
                   spec:

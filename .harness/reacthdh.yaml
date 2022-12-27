@@ -84,6 +84,8 @@ pipeline:
                   name: test connection
                   identifier: Test_Connection_to_Java_HTTP_Server
                   spec:
+                    connectorRef: account.harnessImage
+                    image: curlimages/curl:7.73.0
                     shell: Sh
                     command: curl reactjs_server:8080
   properties:

@@ -71,8 +71,8 @@ pipeline:
             steps:
               - step:
                   type: Background
-                  name: Test Server
-                  identifier: Test_Server
+                  name: reactjs server
+                  identifier: reactjs_server
                   spec:
                     connectorRef: harnesscommunitydocker
                     image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>

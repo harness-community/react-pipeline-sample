@@ -85,10 +85,7 @@ pipeline:
                   identifier: Test_Connection_to_Java_HTTP_Server
                   spec:
                     shell: Sh
-                    command: |-
-                      until curl --max-time 1 http://localhost:8888; do
-                        sleep 2;
-                      done
+                    command: curl http://localhost:8888
   properties:
     ci:
       codebase:

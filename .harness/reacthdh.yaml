@@ -77,9 +77,6 @@ pipeline:
                     connectorRef: harnesscommunitydocker
                     image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>
                     shell: Sh
-                    command: |-
-                      cd /src
-                      node index.js
                     portBindings:
                       "8080": "8080"
               - step:
@@ -90,10 +87,7 @@ pipeline:
                     connectorRef: account.harnessImage
                     image: curlimages/curl:7.73.0
                     shell: Sh
-                    command: |-
-                      until curl --max-time 1 http://localhost:8080; do
-                        sleep 2;
-                      done
+                    command: curl http://localhost:8080
   properties:
     ci:
       codebase:

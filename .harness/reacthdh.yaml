@@ -92,3 +92,4 @@ pipeline:
         connectorRef: dhrubaaccountconnector
         repoName: react-pipeline-sample
         build: <+input>
+  allowStageExecutions: true

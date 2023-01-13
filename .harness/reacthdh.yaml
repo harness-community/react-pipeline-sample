@@ -54,40 +54,6 @@ pipeline:
           runtime:
             type: Cloud
             spec: {}
-    - stage:
-        name: Run Connectivity Test
-        identifier: Run_Connectivity_Test
-        description: ""
-        type: CI
-        spec:
-          cloneCodebase: false
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
-          execution:
-            steps:
-              - step:
-                  type: Background
-                  name: reactjs server
-                  identifier: reactjs_server
-                  spec:
-                    connectorRef: harnesscommunitydocker
-                    image: <+pipeline.variables.DOCKERHUB_USERNAME>/test-react:<+pipeline.sequenceId>
-                    shell: Sh
-                    portBindings:
-                      "8080": "8080"
-              - step:
-                  type: Run
-                  name: test connection
-                  identifier: Test_Connection_to_Java_HTTP_Server
-                  spec:
-                    connectorRef: account.harnessImage
-                    image: curlimages/curl:7.73.0
-                    shell: Sh
-                    command: curl http://reactjs_server:8080
   properties:
     ci:
       codebase:
